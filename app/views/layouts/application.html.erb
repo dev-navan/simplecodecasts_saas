@@ -2,8 +2,10 @@
 <html>
 <head>
   <title>Dev Match</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag "https://js.stripe.com/v2/", type: 'text/javascript' %>
   <%= javascript_include_tag 'application' %>
+  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -17,35 +19,30 @@
         <span class="icon-bar"></span>
       </button>
       <%= link_to root_path, class: 'navbar-brand' do %>
-        <i class = "fa fa-users"></i>
-      <!-- this is an anchor tag, it converts to a HTML code. Alternatively:
-      <a href="/">SaaS</a>  
-      This will make it lose the CSS styling. See the class. Can simply add class to code. -->
-      Dev Match
+        <i class="fa fa-users"></i>
+        Dev Match
       <% end %>
     </div>
     <div class="collapse navbar-collapse" id="main-nav-collapse">
-      <div class ="nav navbar-nav navbar-right">
-        <% if current_user %> <!-- tests to see if the user is logged in -->
+      <div class="nav navbar-nav navbar-right">
+        <% if current_user %>
           <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: 'btn btn-primary navbar-btn' %>
         <% else %>
           <%= link_to "Log In", new_user_session_path, class: 'btn btn-primary navbar-btn', method: :get %>
         <% end %>
       </div>
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "About Us", about_path %></li>
+        <li><%= link_to "About", about_path %></li>
         <li><%= link_to "Contact Us", new_contact_path %></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div>
 </nav>
-
 <div class="container">
   <% flash.each do |key, value| %>
     <%= content_tag :div, value, class: "alert alert-#{key}" %>
   <% end %>
   <%= yield %>
 </div>
-
 </body>
 </html>
